@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>header</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+
+
+</head>
+<body>
+
+<footer th:fragment="admin_common_head">
+    <style>
+        #head1{
+            border: 10px ;
+            font-size: 30px;
+        }
+        #main0{
+            color: black;
+            font-size: 35px;
+        }
+        #li0{
+            font-size: 18px;
+            float: right;
+            margin-right: 5px;
+            margin-top: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px 4px 0 0;
+        }
+        #span0{
+            color: #ffacd8;
+        }
+        #span1{
+            color: #ff4b37;
+        }
+
+
+    </style>
+    <div>
+
+        <div class=".container" id="head1">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" id="main0">管理员系统</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/stuMessage" style="margin-left: 100px">学生信息管理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teaMessage">讲师信息管理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allLessonAdmin">所有排课信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/addLessonName">添加课程类别</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/addLessonTea">添加课程授课讲师</a>
+                </li>
+
+                <li id="li0">
+                    <p id="span0">
+                        您好！亲爱的 <span style="color: red" th:text="${session.name}"></span> 用户。<a class="nav-link" href="/">注销</a>
+                    </p>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+
+
+
+</footer>
+
+
+
+
+
+</body>
+</html>

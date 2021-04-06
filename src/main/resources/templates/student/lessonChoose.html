@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/App.js"></script>
+
+    <link type="text/css" th:href="@{/xss/style.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/xss/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/xss/jparticle.min.js}"></script>
+
+
+</head>
+
+
+<style>
+    .lt_layout {
+        width: 1750px;
+        height: 900px;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+
+    #table0, #table1, h1 {
+        margin-left: 5%;
+        /*margin-right: 5%;*/
+        margin-top: 3%;
+    }
+
+    #btn01 {
+        margin-left: 900px;
+        width: 150px;
+        height: 80px;
+    }
+
+
+</style>
+
+<body>
+
+<!--<div class="container">-->
+    <div id="head" th:include="student/header :: common_head" >
+
+    </div>
+    <div class="lt_layout">
+        <h1>已选课程
+            <hr>
+        </h1>
+        <!-- 表格 -->
+        <div>
+
+            <table class="table table-hover" id="table0">
+                <thead>
+                <tr>
+                    <th scope="col">序号</th>
+                    <th scope="col">课程名称</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lessonName : ${lessonNames}">
+                    <th scope="row" th:text="${lessonNameStat.index+1}">1</th>
+                    <td th:text="${lessonName}">001</td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success" id="btn01"
+                    th:onclick="inBook()">进入约课
+            </button>
+        </div>
+
+
+        <h1>选择课程进行约课
+            <hr>
+        </h1>
+        <!-- 表格 -->
+        <div>
+            <table class="table table-hover" id="table1">
+                <thead>
+                <tr>
+                    <th scope="col">序号</th>
+                    <th scope="col">课程名</th>
+                    <th scope="col">点击选择课程</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dict : ${dicts}">
+                    <th scope="row" th:text="${dictStat.index+1}">1</th>
+                    <td th:text="${dict.getName()}">数学</td>
+                    <td>
+                        <button type="button" class="btn btn-success" th:onclick="joinLesson([[${dict.getCode()}]])">
+                            加入
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--</div>-->
+</body>
+
+<script>
+
+    function inBook() {
+        location.href = "/lessonTable";
+    }
+
+    function joinLesson(code) {
+        $.post("/joinLesson", {code: code}, function (res) {
+            if (res == 0) {
+                alert("不能重复加入！！！")
+            }
+            if (res == 1) {
+                alert("加入该课程成功！！！");
+                location.reload();
+            }
+
+        })
+    }
+
+    $(function () {
+        $(".container").jParticle({
+            background: "rgba(0,0,0,0)",//背景颜色
+            color: "#fff",//粒子和连线的颜色
+            particlesNumber: 100,//粒子数量
+            //disableLinks:true,//禁止粒子间连线
+            //disableMouse:true,//禁止粒子间连线(鼠标)
+            particle: {
+                minSize: 1,//最小粒子
+                maxSize: 3,//最大粒子
+                speed: 30,//粒子的动画速度
+            }
+        });
+    });
+
+</script>
+
+
+</html>

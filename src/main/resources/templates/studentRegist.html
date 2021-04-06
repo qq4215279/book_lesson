@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>学生注册</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <style>
+        body {
+            background: url("./img/1000102.jpg");
+            background-size:cover;
+            padding-top: 25px;
+        }
+
+        .rg_layout {
+            width: 1200px;
+            height: 700px;
+            background: white;
+            margin: 0 auto;
+            margin-top: 140px;
+        }
+
+        .rg_left {
+            /*border: 1px solid red;*/
+            float: left;
+            margin: 25px;
+        }
+
+        .rg_left > p:first-child {
+            color: #FFD026;
+            font-size: 20px;
+        }
+
+        .rg_left > p:last-child {
+            color: #A6A6A6;
+            font-size: 20px;
+
+        }
+
+        .rg_center {
+            float: left;
+            width: 700px;
+        }
+
+        #form1 {
+            margin-left: 200px;
+            margin-top: 100px;
+        }
+
+        .rg_right {
+            /*border: 1px solid red;*/
+            float: right;
+            margin: 25px;
+        }
+
+        .rg_right > p:first-child {
+            font-size: 15px;
+
+        }
+
+        .rg_right p a {
+            color: pink;
+        }
+
+        #img_check {
+            height: 32px;
+            vertical-align: middle;
+        }
+
+        .td_right {
+            /*display: block;*/
+            width: 50%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="rg_layout">
+    <div class="rg_left">
+        <p>新用户注册</p>
+        <p>USER REGISTER</p>
+
+    </div>
+
+    <div class="rg_center">
+        <div id="form1">
+            <div id="errorMsg" style="color:red;text-align: center"></div>
+            <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">用户名</label>
+                <div class="col-sm-10">
+                    <input type="name" class="form-control" id="username" placeholder="单词字符，长度8到20位">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">设置密码</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" placeholder="单词字符，长度8到20位">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password2" class="col-sm-2 col-form-label">确认密码</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password2" placeholder="请再次输入密码">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">邮箱</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" placeholder="请输入邮箱的正确格式">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">姓名</label>
+                <div class="col-sm-10">
+                    <input type="name" class="form-control" id="name" placeholder="请输入姓名">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">性别</label>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="man" value="男" checked>
+                        <label class="form-check-label" for="man">
+                            男
+                        </label>
+                        <input class="form-check-input" type="radio" name="gender" id="woman" value="女">
+                        <label class="form-check-label" for="woman">
+                            女
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">选择校区</label>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="school" id="beijing" value="北京" checked>
+                        <label class="form-check-label" for="beijing">
+                            北京
+                        </label>
+                        <input class="form-check-input" type="radio" name="school" id="shanghai" value="上海">
+                        <label class="form-check-label" for="shanghai">
+                            上海
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">手机号</label>
+                <div class="col-sm-10">
+                    <input type="phone" class="form-control" id="phone" placeholder="请输入手机号">
+                </div>
+            </div>
+
+<!--            <div class="form-group row">-->
+<!--                <label for="name" class="col-sm-2 col-form-label">验证码</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input type="text" class="td_right" id="checkCode" placeholder="请输入验证码">-->
+<!--                    <img id="img_check" src="./img/verify_code.jpg">-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+            <div class="form-group row">
+                <div class="col-sm-10" style="text-align: center">
+                    <button type="submit" class="btn btn-primary" id="register0" style="width: 120px">点击注册</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="rg_right">
+        <p>已有账号?<a href="/">立即登录</a></p>
+    </div>
+
+</div>
+</body>
+<script>
+    /*
+            表单校验：
+                1.用户名：单词字符，长度8到20位
+                2.密码：单词字符，长度8到20位
+                3.email：邮件格式
+                4.姓名：非空
+                5.手机号：手机号格式
+                6.出生日期：非空
+                7.验证码：非空
+         */
+
+    //校验用户名
+    //单词字符，长度8到20位
+    function checkUsername() {
+        //1.获取用户名值
+        var username = $("#username").val();
+        //2.定义正则
+        var reg_username = /^\w{8,20}$/;
+
+        //3.判断，给出提示信息
+        var flag = reg_username.test(username);
+        if (flag) {
+            //用户名合法
+            $("#username").css("border", "");
+        } else {
+            //用户名非法,加一个红色边框
+            $("#username").css("border", "1px solid red");
+        }
+
+        return flag;
+    }
+
+    //校验密码
+    function checkPassword() {
+        //1.获取密码值
+        var password = $("#password").val();
+        //2.定义正则
+        var reg_password = /^\w{8,20}$/;
+
+        //3.判断，给出提示信息
+        var flag = reg_password.test(password);
+        if (flag) {
+            //密码合法
+            $("#password").css("border", "");
+        } else {
+            //密码非法,加一个红色边框
+            $("#password").css("border", "1px solid red");
+        }
+
+        return flag;
+    }
+
+    //校验再次输入密码是否一致
+    function checkRePassword() {
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+        if (password === password2) {
+            $("#password2").css("border", "");
+            return true;
+        } else {
+            $("#password2").css("border", "1px solid red");
+            return false;
+        }
+
+    }
+
+    //校验邮箱
+    function checkEmail() {
+        //1.获取邮箱
+        var email = $("#email").val();
+        //2.定义正则		itcast@163.com
+        var reg_email = /^\w+@\w+\.\w+$/;
+
+        //3.判断
+        var flag = reg_email.test(email);
+        if (flag) {
+            $("#email").css("border", "");
+        } else {
+            $("#email").css("border", "1px solid red");
+        }
+
+        return flag;
+    }
+
+    $(function () {
+        //当表单提交时，调用所有的校验方法
+        $("#register0").click(function () {
+            //1.发送数据到服务器
+            if (checkUsername() && checkPassword() && checkEmail()) {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var name = $("#name").val();
+                var gender = $("input[name='gender']:checked").val();
+                var age = $("#age").val();
+                var email = $("#email").val();
+                var phone = $("#phone").val();
+                var school = $("input[name='school']:checked").val();
+                $.post("/register", {
+                    username: username,
+                    password: password,
+                    name: name,
+                    gender: gender,
+                    age: age,
+                    email: email,
+                    phone: phone,
+                    school: school
+                }, function () {
+                    //注册成功，跳转成功页面
+                        alert("注册成功！！！");
+                        location.href = "/";
+
+                    // alert(result.flag + result.message )
+                    // if (result.flag) {
+                    //     location.href = "/";
+                    // } else {
+                    //     //注册失败,给errorMsg添加提示信息
+                    //     $("#errorMsg").html(result.errorMsg);
+                    //
+                    // }
+                });
+
+            }
+        });
+
+        //当某一个组件失去焦点是，调用对应的校验方法
+        $("#username").blur(checkUsername);
+        $("#password").blur(checkPassword);
+        $("#password2").blur(checkRePassword);
+        $("#email").blur(checkEmail);
+    });
+
+</script>
+
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>课程表</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/App.js"></script>
+
+
+    <style>
+        .lt_layout {
+            width: 1750px;
+            height: 900px;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        #search0 {
+            margin-top: 0px;
+            margin-left: 28%;
+
+        }
+
+        .form-control {
+            display: inline;
+            width: 450px;
+        }
+
+        #btSearch {
+            margin-top: 10px;
+            width: 300px;
+            height: 45px;
+            margin-left: 75px
+        }
+
+        #table0, h1 {
+            margin-left: 5%;
+            /*margin-right: 5%;*/
+            margin-top: 3%;
+        }
+
+        #span0 {
+            font-size: 16px;
+            float: left;
+            margin-right: 25px;
+        }
+
+        #nav0 {
+            /*width: 300px;*/
+            /*height: 300px;*/
+            margin-right: 200px;
+            float: right;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<!--    <div id="head" th:include="student/header :: common_head">-->
+<!--    </div>-->
+<div id="head" th:include="student/header :: common_head" class="header-main"></div>
+<div class="lt_layout">
+    <h1>课程表
+        <hr>
+    </h1>
+
+    <!-- 搜索栏 -->
+    <div id="search0">
+        <label for="selectTeacher">讲师姓名：</label>
+        <input type="name" class="form-control form-control-lg" id="selectTeacher" th:value="${teacher}" placeholder="请输入讲师姓名">
+
+        <label for="selectLesson" style="margin-left: 20px">课程名：</label>
+        <input type="name" class="form-control form-control-lg" id="selectLesson" th:value="${lesson}" placeholder="请输入课程名称"><br>
+
+        <label for="selectLesson">校区地址：</label>
+        <select class="form-control form-control-lg" id="selectAddr" >
+            <option value="">请选择</option>
+            <option value="北京">北京</option>
+            <option value="上海">上海</option>
+        </select>
+
+<!--        <select class="form-control form-control-lg" id="selectAddr" th:switch="${selectAddr}" >-->
+<!--            <option value="">请选择</option>-->
+<!--            <option th:case="'北京'" th:selected="selected" value="北京">北京</option>-->
+<!--            <option th:case="'上海'" th:selected="selected" value="上海">上海</option>-->
+<!--        </select>-->
+
+
+        <button class="btn btn-outline-success " type="submit" id="btSearch">搜索</button>
+    </div>
+    <!-- 表格 -->
+    <div>
+        <table class="table table-hover" id="table0">
+            <thead>
+            <tr>
+                <th scope="col">序号</th>
+                <th scope="col">课程号</th>
+                <th scope="col">课程名</th>
+                <th scope="col">上课开始时间</th>
+                <th scope="col">上课结束时间</th>
+                <th scope="col">校区</th>
+                <th scope="col">讲师</th>
+                <th scope="col">点击预约</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="lessonCourse : ${result.getItems()}">
+                <th scope="row" th:text="${lessonCourseStat.index+1}">1</th>
+                <td th:text="${lessonCourse.getId()}">001</td>
+                <td th:text="${lessonCourse.getCourseName()}">数学</td>
+                <td th:text="${lessonCourse.getLessonStartTime()}">2月10号8点</td>
+                <td th:text="${lessonCourse.getLessonEndTime()}">2月10号8点</td>
+                <td th:text="${lessonCourse.getShoolAddr()}">北京</td>
+                <td>
+                    <button type="button" class="btn btn-success"
+                        th:onclick="'javascript:bookLesson('${lessonCourse.getShoolAddr()}','${lessonCourse.getId()}')'">
+                        预约
+                    </button>
+                </td>
+                <td th:text="${lessonCourse.getTeacherName()}"><a href="#">张军</a></td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <nav aria-label="Page navigation example" id="nav0">
+
+        <ul class="pagination">
+            <p id="span0">显示第 <span th:text="${(result.getCurrentPage()-1) * result.getPageSize() + 1}">1</span>
+                到第 <span th:if="${result.currentPage != result.getTotalPage()}" th:text="${(result.getCurrentPage()) * result.getPageSize()}">5</span>
+                     <span th:if="${result.currentPage == result.getTotalPage()}" th:text="${result.getTotalCount()}">5</span> 条记录，
+                总共 <span th:text="${result.getTotalCount()}">50</span> 条记录,
+                每页显示 <span th:text="${result.getPageSize()}">5</span> 条记录
+            </p>
+
+            <!-- 上一页 -->
+            <li class="page-item disabled" th:if="${result.getCurrentPage() <= 1}">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true"
+                          th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()}+'\')'">&laquo;上一页</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${result.getCurrentPage() > 1}">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true"
+                          th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()-1}+'\')'">&laquo;上一页</span>
+                </a>
+            </li>
+
+            <!-- 当前页为最后一页时： -->
+            <li class="page-item" th:if="${result.getCurrentPage() >= result.getTotalPage() && result.getCurrentPage() != 1 && result.getCurrentPage() != 2}"><a class="page-link"
+                            th:text="${result.getCurrentPage()-2} "
+                            th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()-2}+'\')'"></a>
+            </li>
+
+            <li class="page-item" th:if="${result.getCurrentPage() > 1}"><a class="page-link"
+                            th:text="${result.getCurrentPage()-1} "
+                            th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()-1}+'\')'"></a>
+            </li>
+            <li class="page-item"><a class="page-link" th:text="${result.getCurrentPage()}"
+                                     th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()}+'\')'"></a>
+            </li>
+            <li class="page-item" th:if="${result.getCurrentPage() < result.getTotalPage()}"><a class="page-link"
+                            th:text="${result.getCurrentPage()+1} "
+                            th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()+1}+'\')'"></a>
+            </li>
+
+            <!-- 当前页为第一页时： -->
+            <li class="page-item" th:if="${result.getCurrentPage() <= 1 && result.getTotalPage() != 1 && result.getTotalPage() != 2}"><a class="page-link"
+                            th:text="${result.getCurrentPage()+2} "
+                            th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()+2}+'\')'"></a>
+            </li>
+
+
+<!--                        <li class="page-item"><a class="page-link" th:href="@{'/lessonTable?page='+${result.getCurrentPage()}"-->
+<!--                                                 th:text="${result.getCurrentPage()} +2"></a></li>-->
+
+            <!-- 下一页 -->
+            <li class="page-item disabled" th:if="${result.getCurrentPage() >= result.getTotalPage()}">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true"
+                          th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()}+'\')'">下一页&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${result.getCurrentPage() < result.getTotalPage()}">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true"
+                          th:onclick="'javascript:queryLessonTable(\''+${result.getCurrentPage()+1}+'\')'">下一页&raquo;</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+
+</div>
+</body>
+<script>
+
+    function bookLesson(lessonId,shoolAddr) {//, shoolAddr
+        // alert("lessonId:"+lessonId+"  shoolAddr:"+shoolAddr);
+        alert(lessonId,shoolAddr);
+        $.post("/bookLesson", {lessonId: 1, shoolAddr: '北京'}, function (data) {
+            if (data == 0) {
+                alert("不能重复预约！")
+            } else if (data == 1) {
+                alert("不能夸校区选课！！")
+            } else {
+                alert("预约成功！！！")
+            }
+        })
+    }
+
+    function queryLessonTable(page) {
+        var teacher = $("#selectTeacher").val();
+        var lesson = $("#selectLesson").val();
+        var selectAddr =  $("#selectAddr").val();
+
+        location.href = "/lessonTable?page=" + page + "&teacher="+teacher +"&lesson="+lesson +"&selectAddr="+selectAddr;
+    }
+
+    $("#btSearch").click(function () {
+        var teacher = $("#selectTeacher").val();
+        var lesson = $("#selectLesson").val();
+        var selectAddr =  $("#selectAddr").val();
+        location.href = "/lessonTable?page=1&teacher="+teacher +"&lesson="+lesson +"&selectAddr="+selectAddr;
+    })
+
+
+
+</script>
+
+
+</html>

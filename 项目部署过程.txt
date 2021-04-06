@@ -1,0 +1,5 @@
+项目部署过程：
+1.在源程序目录中，有一个book_lesson.sql文件，将该文件里的内容粘贴至MySQL数据库图形界面的可执行数据库语句的空白处，并执行所有语句从而创建了book_lesson的数据库。
+2.将源程序目录中的book_lesson.war包，放入服务器Tomcat中的webapps包下。
+3.执行服务器Tomcat中bin文件下的start.bat的批处理命令启动项目。
+4.项目启动完成后在页面输入: localhost即可访问首页。

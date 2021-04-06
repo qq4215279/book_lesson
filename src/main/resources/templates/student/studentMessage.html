@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>修改个人信息</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <style>
+        .pm_layout{
+            width: 1300px;
+            height: 1000px;
+            margin-top: 70px;
+            margin-left: 17%;
+        }
+        h2{
+            font-size: 40px;
+            color: black;
+
+        }
+        /*table{*/
+        /*    line-height: 100px;*/
+        /*}*/
+
+
+    </style>
+
+</head>
+<body>
+<div id="head" th:include="student/header :: common_head" class="header-main"></div>
+<!--    <div id="head" th:include="student/header :: common_head">-->
+<!--    </div>-->
+<div class="pm_layout">
+    <h2>管理个人信息</h2><hr>
+    <div>
+        <table class="table table-striped" style="margin-top: 10px" id="table0">
+            <thead>
+            <tr>
+                <th scope="col">/</th>
+                <td>信息</td>
+                <td>介绍</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="col">用户名</th>
+                <td th:text="${stu.getUsername()}"></td>
+                <td>不可修改</td>
+            </tr>
+            <tr>
+                <th scope="col">密码</th>
+                <td th:text="${stu.getPassword()}">001</td>
+                <td><a href="/chageStuPassword">点击修改</a>  </td>
+            </tr>
+            <tr>
+                <th scope="col">姓名</th>
+                <td th:text="${stu.getName()}">001</td>
+                <td>不可修改</td>
+            </tr>
+            <tr>
+                <th scope="col">年龄</th>
+                <td th:text="${stu.getAge()}">001</td>
+                <td>不可修改</td>
+            </tr>
+            <tr>
+                <th scope="col">邮箱</th>
+                <td th:text="${stu.getEmail()}">001</td>
+                <td>不可修改</td>
+            </tr>
+            <tr>
+                <th scope="col">性别</th>
+                <td th:text="${stu.getGender()}">001</td>
+                <td>不可修改</td>
+            </tr>
+            <tr>
+                <th scope="col">校区</th>
+                <td th:text="${stu.getSchool()}">001</td>
+                <td>不可修改</td>
+            </tr>
+            <tr>
+                <th scope="col">手机号</th>
+                <td th:text="${stu.getPhone()}">001</td>
+                <td>不可修改</td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

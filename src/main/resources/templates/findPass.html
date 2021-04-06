@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>找回密码</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <style>
+        .cp_div {
+            width: 500px;
+            height: 600px;
+            margin-top: 70px;
+            margin-left: 35%;
+        }
+        h1{
+            font-size: 40px;
+        }
+        .cp_btn {
+            width: 160px;
+            height: 40px;
+            margin-left: 87px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="cp_div">
+
+    <h1>找回密码</h1><hr>
+
+    <div style="margin-top: 50px">
+        <p class="box_login_account_null" id="msg" style="color: red" th:text="${msg}"></p>
+        <div class="form-group row">
+            <label for="username" class="col-sm-2 col-form-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="username" placeholder="请输入用户名">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="username" class="col-sm-2 col-form-label">手机号</label>
+            <div class="col-sm-10">
+                <input type="username" class="form-control" id="phone" placeholder="请输入注册填写手机号">
+                <input class="btn btn-primary cp_btn" type="button" id="sendBtn" value="发送验证码">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="checkCode" class="col-sm-2 col-form-label" id="phoneCode" >验证码</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="checkCode" placeholder="请输入手机验证码">
+            </div>
+        </div>
+        <p class="box_login_account_null" id="pass" style="color: red" ></p>
+        <div class="form-group row" style="margin-top: 15px">
+            <label for="password0" class="col-sm-2 col-form-label">新密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password0" placeholder="请输入新密码">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="password1" class="col-sm-2 col-form-label">确认密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password1" placeholder="请再次输入新密码">
+            </div>
+        </div>
+        <input class="btn btn-primary cp_btn" type="button" id="confirmBtn" value="确认">
+        <input class="btn btn-outline-success cp_btn" type="button" id="rebackBtn" value="返回">
+    </div>
+
+
+</div>
+
+
+</body>
+    <script>
+
+        function checkPhoneCode() {
+            var phoneCode = $("#phoneCode").val();
+            var checkCode = $("#checkCode").val();
+            if (phoneCode == ''){
+                $("#msg").html("phoneCode:"+phoneCode+" 请先点击发送验证码");
+                return false;
+            }
+            if(phoneCode != '' && checkCode != '' && checkCode != phoneCode){
+                $("#msg").html("输入验证码错误！" +"phoneCode:"+ phoneCode +"  checkCode:"+ checkCode);
+                return false;
+            }
+            $("#msg").html("验证码正确！");
+            return true;
+        }
+
+        //校验再次输入密码是否一致
+        function checkRePassword() {
+            var password = $("#password0").val();
+            var password2 = $("#password1").val();
+            if (password === password2) {
+                $("#password2").css("border", "");
+                return true;
+            } else {
+                $("#password2").css("border", "1px solid red");
+                $("#pass").html("两次密码输入不一致！");
+                return false;
+            }
+
+        }
+
+        $("#sendBtn").click(function () {
+            var username = $("#username").val();
+            var phone = $("#phone").val();
+            if (username == '' || phone == ''){
+                $("#msg").html("请先将用户名和手机号填写完整！");
+            }
+            if (username != '' && phone != ''){
+                $.get("/sendMsg",{username:username,phone:phone},function (res) {
+                    if (res == 1){
+                        $("#msg").html("请输入正确的用户名和手机号");
+                    } else {
+                        $("#phoneCode").val(res);
+                        alert("已发送验证码，请注意手机查收！");
+                    }
+
+                })
+            }
+        })
+
+        $("#rebackBtn").click(function () {
+           location.href = "/login";
+        });
+
+        $("#confirmBtn").click(function () {
+            if (checkPhoneCode() && checkRePassword()){
+                var username = $("#username").val();
+                var password = $("#password0").val();
+                $.post("/findPassWord",{username:username,password:password},function (res) {
+                    if (res == 1){
+                        alert("恭喜，找回密码成功！！！");
+                        location.href = "/login";
+                    }
+                })
+            }
+
+        })
+
+        $(function () {
+
+
+        })
+
+
+    </script>
+
+
+
+
+</html>

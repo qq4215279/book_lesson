@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mumu.student.mapper.LessonMapper">
+
+
+
+    <select id="queryNowLesson" resultType="com.mumu.pojo.LessonCourse">
+       SELECT
+            *
+       FROM
+            lesson_course
+        WHERE
+            id IN(SELECT lesson_id FROM lesson_choose lch WHERE student_id = #{stuId} AND lch.state = 1 )
+
+
+    </select>
+
+    <select id="queryHistoryLesson" resultType="com.mumu.pojo.LessonCourse">
+        SELECT
+            *
+        FROM
+            lesson_course
+        WHERE
+            id IN(SELECT lesson_id FROM lesson_choose lch WHERE student_id = #{stuId} AND lch.state = 3 )
+
+    </select>
+
+    <select id="queryAllLesson" resultType="com.mumu.pojo.LessonCourse" >
+        SELECT
+            *
+        FROM
+            lesson_course
+        WHERE
+            state != 2
+            <if test="teacher != null and teacher !=''">
+                and teacher_name LIKE CONCAT('%',#{teacher},'%')
+            </if>
+            <if test="lesson != null and lesson !=''">
+                and course_name LIKE CONCAT('%',#{lesson},'%')
+            </if>
+            <if test="selectAddr != null and selectAddr !=''">
+                and shool_addr LIKE CONCAT('%',#{selectAddr},'%')
+            </if>
+            <foreach item="lessonName" index="index" collection="lessonNames"
+                     open="AND course_name IN(" separator="," close=")">
+                #{lessonName}
+            </foreach>
+        ORDER BY
+            lesson_start_time ASC
+    </select>
+
+
+
+    <insert id="bookLesson">
+        INSERT INTO
+            lesson_choose(lesson_id,student_id,teacher_id,state)
+        VALUES(#{lessonId},#{stuId},#{teacherId},1)
+    </insert>
+
+    <update id="cancelLesson">
+        UPDATE
+            lesson_choose
+        SET
+            state = 0
+        WHERE
+            lesson_id = #{lessonId} AND student_id = #{stuId}
+    </update>
+
+</mapper>
