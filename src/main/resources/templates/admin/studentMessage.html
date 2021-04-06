@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>学生信息管理</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <style>
+        .pm_layout{
+            width: 1300px;
+            height: 1000px;
+            margin-top: 70px;
+            margin-left: 17%;
+        }
+        h2{
+            font-size: 40px;
+            color: black;
+
+        }
+        #sm_btn{
+            width: 160px;
+            height: 40px;
+        }
+        #span0 {
+            font-size: 16px;
+            float: left;
+            margin-right: 25px;
+        }
+        #nav0 {
+            /*width: 300px;*/
+            /*height: 300px;*/
+            margin-right: 200px;
+            float: right;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<!--    <div id="head" th:include="student/header :: common_head">-->
+<!--    </div>-->
+<div id="head" th:include="admin/header :: admin_common_head" class="header-main"></div>
+<div class="pm_layout">
+    <h2>学生信息管理</h2><hr>
+    <div>
+<!--        <button type="button" class="btn btn-primary" id="sm_btn">增加</button><hr>-->
+        <table class="table table-striped" style="margin-top: 10px" id="table0">
+            <thead>
+            <tr>
+                <th scope="col">/</th>
+                <td>用户名</td>
+                <td>姓名</td>
+                <td>手机号</td>
+                <td>性别</td>
+                <td>校区</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each = "student : ${studentList}">
+                <th scope="col" th:text="${studentStat.index+1}">1</th>
+                <td th:text="${student.getUsername()}">root</td>
+                <td th:text="${student.getName()}">蒋汭</td>
+                <td th:text="${student.getPhone()}">18274741212</td>
+                <td th:text="${student.getGender()}">女</td>
+                <td th:text="${student.getSchool()}">上海</td>
+                <td>
+                    <button type="button" class="btn btn-success"
+                            th:onclick="deleteStu([[${student.getId()}]])">删除
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <hr>
+    </div>
+
+    <!-- 分页 -->
+    <nav aria-label="Page navigation example" id="nav0">
+
+        <ul class="pagination">
+            <span id="span0">显示第 1 到第 20 条记录，总共 42 条记录每页显示  条记录</span>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+</body>
+    <script>
+        function deleteStu(stuId) {
+            // alert(stuId)
+            var flag = confirm("您确定删除该学生用户吗？");
+            if(flag){
+                $.post("/deleteStu",{stuId:stuId},function (res) {
+                    if (res == 1){
+                        alert("删除成功！！！");
+                        location.reload();
+                    }
+                })
+            }
+        }
+
+
+    </script>
+
+
+</html>

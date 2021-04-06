@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>已排课程</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <!--    <link href="../WEB-INF/static/css/style.css" rel="stylesheet">-->
+    <script src="./js/css-doodle.min.js"></script>
+
+
+    <style>
+        .nl_layout{
+            width: 1300px;
+            height: 1000px;
+            margin-top: 70px;
+            margin-left: 17%;
+        }
+        h1{
+            font-size: 40px;
+        }
+        table{
+            margin-top: 50px;
+        }
+        #span0 {
+            font-size: 16px;
+            float: left;
+            margin-right: 25px;
+        }
+        #nav0 {
+            /*width: 300px;*/
+            /*height: 300px;*/
+            margin-right: 200px;
+            float: right;
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="head" th:include="teacher/header :: Tea_common_head" class="header-main"></div>
+<div class="nl_layout">
+    <h1>已排课程</h1><hr>
+    <!-- 表格 -->
+    <div>
+        <table class="table table-hover" id="table0">
+            <thead>
+            <tr>
+                <th scope="col">序号</th>
+                <th scope="col">课程号</th>
+                <th scope="col">课程名</th>
+                <th scope="col">上课开始时间</th>
+                <th scope="col">上课结束时间</th>
+                <th scope="col">已预约课程人数</th>
+                <th scope="col">查看学生信息</th>
+                <th scope="col">校区</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lessonCourse: ${lessonCourseList}">
+                <th scope="row" th:text="${lessonCourseStat.index+1}" >1</th>
+                <td id="lessonId" th:text="${lessonCourse.getId()}" th:value="${lessonCourse.getId()}">001</td>
+                <td th:text="${lessonCourse.getCourseName()}">数学</td>
+                <td th:text="${lessonCourse.getLessonStartTime()}">2月10号8点</td>
+                <td th:text="${lessonCourse.getLessonEndTime()}">2月10号8点</td>
+                <td th:text="${lessonCourse.getNums()}"></td>
+                <td>
+                    <button type="button" class="btn btn-success"
+                            th:onclick="getBookStuMessge([[${lessonCourse.getId()}]])">进入查看
+                    </button>
+                </td>
+                <td th:text="${lessonCourse.getShoolAddr()}">北京</td>
+            </tr>
+            
+            </tbody>
+        </table>
+        <hr>
+    </div>
+    <!-- 分页 -->
+    <nav aria-label="Page navigation example" id="nav0">
+        <ul class="pagination">
+            <span id="span0">显示第 1 到第 20 条记录，总共 42 条记录每页显示 20 条记录</span>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+</body>
+<script>
+
+    function getBookStuMessge(lessonId) {
+        location.href = "/getBookStuMessage?lessonId="+lessonId;
+
+
+    }
+
+</script>
+
+</html>

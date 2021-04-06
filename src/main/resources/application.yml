@@ -1,0 +1,28 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: TestDay
+  datasource:
+    url: jdbc:mysql:///book_lesson
+    username: root
+    password: root
+  thymeleaf:
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    cache: false
+    check-template-location: true
+    enabled: true
+    prefix: classpath:/templates/
+mybatis:
+  type-aliases-package: com.mumu.pojo
+  mapper-locations: mapper/*.xml  #xml文件位置
+  configuration:  #配置驼峰问题
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+mumu:
+  sms:
+    accessKeyId: LTAI4FePeyLWcgaEXx84YBcy # 你自己的accessKeyId
+    accessKeySecret: GeoLHRwuXXxXWxg2ERwGUbVA1KpW1C # 你自己的AccessKeySecret
+    signName: 木木呀阿木木 # 签名名称
+    verifyCodeTemplate: SMS_171854001 # 模板名称

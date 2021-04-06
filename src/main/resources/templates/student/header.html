@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>header</title>
+
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+
+
+</head>
+<body>
+<footer th:fragment="common_head" >
+<!--<div class="container">-->
+<!--    <link type="text/css" th:href="@{/xss/style.css}" rel="stylesheet"/>-->
+<!--    <script type="text/javascript" th:src="@{/xss/jquery.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{/xss/jparticle.min.js}"></script>-->
+
+    <style>
+        #head1 {
+            border: 10px;
+            font-size: 30px;
+        }
+
+        #main0 {
+            color: black;
+            font-size: 35px;
+        }
+
+        #li0 {
+            font-size: 18px;
+            float: right;
+            margin-right: 5px;
+            margin-top: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px 4px 0 0;
+        }
+
+        #span0 {
+            color: #ffacd8;
+        }
+
+        #span1 {
+            color: #ff4b37;
+        }
+
+
+    </style>
+
+    <div class=".container" id="head1">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="" id="main0">学生网上约课系统</a>
+            </li>
+            <!--                <li class="nav-item">-->
+            <!--                    <a class="nav-link active" href="/lessonTable" style="margin-left: 100px">课程表</a>-->
+            <!--                </li>-->
+            <li class="nav-item">
+                <a class="nav-link active" href="/lessonChoose" style="margin-left: 100px">课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/nowLesson">已预约课程</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/historyLesson">历史选课记录</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/studentMessage">管理个人信息</a>
+            </li>
+
+            <li id="li0">
+                <p id="span0">
+                    您好！亲爱的 <span style="color: red" th:text="${session.name}"></span> 用户。<a class="nav-link"
+                                                                                            href="/">注销</a>
+                </p>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+
+    <!--<script>
+        $(function () {
+            $(".container").jParticle({
+                background: "rgba(0,0,0,0)",//背景颜色
+                color: "#fff",//粒子和连线的颜色
+                particlesNumber: 100,//粒子数量
+                //disableLinks:true,//禁止粒子间连线
+                //disableMouse:true,//禁止粒子间连线(鼠标)
+                particle: {
+                    minSize: 1,//最小粒子
+                    maxSize: 3,//最大粒子
+                    speed: 30,//粒子的动画速度
+                }
+            });
+        });
+
+    </script>-->
+<!--</div>-->
+
+</footer>
+
+
+
+</body>
+</html>

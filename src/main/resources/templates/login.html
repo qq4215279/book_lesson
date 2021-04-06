@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+
+
+    <style>
+        body {
+            /*background: url("./img/0107bba447cf1e4f902f548396f6c37d.jpg");*/
+            background: url("./img/1000102.jpg");
+            background-size: cover;
+        }
+
+        .main0 {
+            width: 1200px;
+            height: 540px;
+            background: white;
+            margin: 0 auto;
+            margin-top: 140px;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        #form1 {
+            margin: 100px;
+            height: 300px;
+            width: 500px;
+
+        }
+
+        .rg_right {
+            /*border: 1px solid red;*/
+            float: right;
+            margin: 15px;
+            font-size: 15px;
+
+        }
+
+        #img_check {
+            height: 32px;
+            vertical-align: middle;
+        }
+
+        .td_right {
+            /*display: block;*/
+            width: 50%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="main0">
+        <div class="rg_right">
+            <p>忘记密码?<a href="/findPass">找回密码</a></p>
+        </div>
+        <div align="center">
+            <h1 class="form-signin">网上约课系统</h1>
+
+            <div id="form1">
+                <p class="box_login_account_null" id="msg" style="color: red" th:text="${msg}"></p>
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="name" class="form-control" id="username" placeholder="请输入用户名"
+                               onblur="checkUsername()">
+                        <p class="box_login_account_null" id="nulla"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="password" placeholder="请输入密码"
+                               onblur="checkPassword()">
+                        <p class="box_login_account_null" id="nullb"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">用户类型</label>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="userType" value="1" id="student" checked>
+                            <label class="form-check-label" for="student">
+                                学生
+                            </label>
+                            <input class="form-check-input" type="radio" name="userType" value="2" id="teacher">
+                            <label class="form-check-label" for="teacher">
+                                讲师
+                            </label>
+                            <input class="form-check-input" type="radio" name="userType" value="3" id="admin">
+                            <label class="form-check-label" for="admin">
+                                管理员
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">验证码</label>
+                    <div class="col-sm-10">
+                        <input type="name" class="td_right" id="checkCode" placeholder="请输入验证码">
+                        <span><img src="/checkCode" alt="" onclick="changeCheckCode(this)"></span>
+                        <script type="text/javascript">
+                            //图片点击事件
+                            function changeCheckCode(img) {
+                                img.src = "/checkCode?" + new Date().getTime();
+                            }
+                        </script>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="login" style="width: 120px">登录</button>
+                        <button type="submit" class="btn btn-primary" id="register" style="width: 120px">学生注册</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+
+<script>
+
+    var flag = true;
+    var username = '';
+    var password = '';
+    //var ctxPath = "/" + location.pathname.split("/")[1]
+    var checkUsername = function () {
+        username = $("#username").val();
+        if (username === '') {
+            $("#nulla").html("账号不能为空");
+            flag = false;
+        } else {
+            $("#nulla").html("");
+            flag = true;
+        }
+    };
+
+    var checkPassword = function () {
+        password = $("#password").val();
+        if (password === '') {
+            $("#nullb").html("密码不能为空");
+            flag = false;
+        } else {
+            $("#nullb").html("");
+            flag = true;
+        }
+    };
+
+    var checkUser = function () {
+        checkUsername();
+        checkPassword();
+        var userType = $("input[name='userType']:checked").val();//通过input name获取
+        var checkCode = $("#checkCode").val();
+
+        // alert(userType);
+        if (flag) {
+            $.post("/checkUser", {
+                username: username,
+                password: password,
+                userType: userType,
+                checkCode: checkCode
+            }, function (res) {
+                if (res == -1) {
+                    $("#msg").html("请输入正确验证码！！！");
+                } else if (res > 0 && userType == 1) {
+                    // alert(res);
+                    // location.href = "/lessonTable";
+                    location.href = "/lessonChoose";
+                } else if (res > 0 && userType == 2) {
+                    location.href = "/nowPaiLesson";
+                } else if (res > 0 && userType == 3) {
+                    location.href = "/stuMessage";
+                } else {
+                    $("#msg").html("用户名或密码错误，请重新输入！！！");
+                }
+            })
+        }
+    }
+
+    $(function () {
+
+        $("#login").click(function () {
+            checkUser();
+        });
+        //回车登录
+        $(document).keydown(function (event) {
+            if (event.keyCode === 13) {
+                checkUser();
+            }
+        })
+
+
+        $("#register").click(function () {
+            // location.href = "http://ghypt.hnszgh.org:9080/admin/login";
+            location.href = "/toRegister";
+        });
+
+    })
+
+
+</script>
+</html>

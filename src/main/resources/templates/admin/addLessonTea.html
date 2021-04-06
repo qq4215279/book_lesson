@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>排课</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <style>
+        .pl_layout {
+            width: 1200px;
+            height: 700px;
+            background: pink;
+            margin: 0 auto;
+            margin-top: 140px;
+        }
+        .rg_center{
+            float: left;
+            width: 800px;
+        }
+        #form0{
+            margin-left: 300px;
+            margin-top: 100px;
+        }
+        #pl_btn{
+            width: 160px;
+            height: 40px;
+            margin-left: 180px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="head" th:include="admin/header :: admin_common_head" class="header-main"></div>
+<div class="pl_layout">
+    <div class="rg_center">
+        <form id="form0">
+
+
+            <div class="form-group row">
+                <label for="lessonName" class="col-sm-2 col-form-label">选择课程</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="lessonName">
+                        <option th:text="请选择" value="" >请选择</option>
+                        <option th:each="dict : ${dicts}"
+                                th:selected="${dict.getName()  eq dict.getName()}"
+                                th:value="${dict.getCode()}" th:text="${dict.getName()}">语文</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="teacherName" class="col-sm-2 col-form-label">选择老师</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="teacherName">
+                        <option th:text="请选择" value="" >请选择</option>
+                        <option th:each="teacher : ${teacherList}"
+                                th:selected="${teacher.getName()  eq teacher.getName()}"
+                                th:value="${teacher.getUsername()}" th:text="${teacher.getName()}">欧阳</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <input class="btn btn-primary cp_btn" type="button" value="确认添加" id="pl_btn">
+        </form>
+    </div>
+
+
+</div>
+</body>
+
+    <script>
+        $(function () {
+            $("#pl_btn").click(function () {
+               var lessonCode =  $("#lessonName").val();
+               var teacherUserName =  $("#teacherName").val();
+
+                $.post("/addLessonTeacher",{lessonCode:lessonCode,teacherUserName:teacherUserName},function (res) {
+                    if (res == 1){
+                        alert("添加成功！！！")
+                        location.reload();
+                    }
+                })
+            })
+        })
+
+
+    </script>
+
+
+</html>

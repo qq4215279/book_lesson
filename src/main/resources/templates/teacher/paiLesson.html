@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>排课</title>
+
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./js/bootstrap.min.js"></script>
+
+
+    <style>
+        .pl_layout {
+            width: 1200px;
+            height: 700px;
+            background: pink;
+            margin: 0 auto;
+            margin-top: 140px;
+        }
+        .rg_center{
+            float: left;
+            width: 800px;
+        }
+        #form0{
+            margin-left: 300px;
+            margin-top: 100px;
+        }
+        #pl_btn{
+            width: 160px;
+            height: 40px;
+            margin-left: 180px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="head" th:include="teacher/header :: Tea_common_head" class="header-main"></div>
+<div class="pl_layout">
+    <div class="rg_center">
+        <form id="form0">
+            <!--<div class="form-group row">
+                <label for="lessonNum" class="col-sm-2 col-form-label">课程号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lessonNum" placeholder="请输入课程号">
+                </div>
+            </div>-->
+
+            <div class="form-group row">
+                <label for="lessonName" class="col-sm-2 col-form-label">课程名称</label>
+                <div class="col-sm-10">
+<!--                    <input type="text" class="form-control" id="lessonName" placeholder="请输入课程名称">-->
+                    <select class="form-control" id="lessonName">
+                        <option th:text="请选择" value="" >请选择</option>
+                        <option th:each="lessonName : ${lessonNames}"
+                                th:selected="${lessonName  eq lessonName}"
+                                th:value="${lessonName}" th:text="${lessonName}">北京</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="nums" class="col-sm-2 col-form-label">人数</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nums" placeholder="请输入课程人数">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lessonStartTime" class="col-sm-2 col-form-label">上课开始时间</label>
+                <div class="col-sm-10">
+                    <input type="datetime-local" class="form-control" id="lessonStartTime" placeholder="格式：XX月XX号XX点">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lessonEndTime" class="col-sm-2 col-form-label">上课结束时间</label>
+                <div class="col-sm-10">
+                    <input type="datetime-local" class="form-control" id="lessonEndTime" placeholder="格式：XX月XX号XX点">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">授课校区</label>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="school" id="beijing" value="北京" checked>
+                        <label class="form-check-label" for="beijing">
+                            北京
+                        </label>
+                        <input class="form-check-input" type="radio" name="school" id="shanghai" value="上海">
+                        <label class="form-check-label" for="shanghai">
+                            上海
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+            <input class="btn btn-primary cp_btn" type="button" value="确认添加" id="pl_btn">
+        </form>
+    </div>
+
+
+</div>
+</body>
+
+    <script>
+        $(function () {
+            $("#pl_btn").click(function () {
+               var lessonName =  $("#lessonName").val();
+               var lessonStartTime =  $("#lessonStartTime").val();
+               var lessonEndTime =  $("#lessonEndTime").val();
+               var school = $("input[name='school']:checked").val();//通过input name获取
+
+                $.post("/addLesson",{lessonName:lessonName,lessonStartTime:lessonStartTime,lessonEndTime:lessonEndTime,school:school},function (res) {
+                    if (res == 1){
+                        alert("排课成功！！！")
+                        location.reload();
+                    }
+                })
+
+            })
+
+        })
+
+
+    </script>
+
+
+</html>
